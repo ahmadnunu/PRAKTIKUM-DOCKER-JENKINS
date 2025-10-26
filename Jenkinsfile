@@ -26,43 +26,38 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         script {
-          // Ini sudah benar
           docker.build("${env.IMAGE_NAME}:${env.BUILD_NUMBER}")
         }
       }
     }
-
-    // ===================================================================
-    // PERBAIKAN DI SINI:
-    // Seluruh logika (termasuk 'withCredentials' dan 'def')
-    // harus dibungkus dalam blok 'script'
-    // ===================================================================
     stage('Push Docker Image') {
       steps {
-        // Tambahkan 'script' block ini
         script {
-          
           withCredentials([usernamePassword(credentialsId: env.REGISTRY_CREDENTIALS, 
                                             usernameVariable: 'DOCKER_USER', 
                                             passwordVariable: 'DOCKER_PASS')]) {
             
-            // 1. Login
-            sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}"
+            // ===================================================================
+            // INI ADALAH PERBAIKANNYA:
+            // 
+            // 1. Kita gunakan 'sh '...' (kutip tunggal) untuk menghindari warning.
+            //    Ini membuat $DOCKER_USER dan $DOCKER_PASS dibaca sebagai
+            //    variabel environment SHELL, bukan interpolasi Groovy.
+            // 2. Kita gunakan 'echo $DOCKER_PASS | ... --password-stdin'
+            //    Ini adalah cara login yang aman dan memperbaiki error sintaks Anda.
+            // ===================================================================
+            sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
   
-            // 2. Definisikan tag dan push
-            // Sekarang 'def' ini valid karena ada di dalam 'script'
+            // Baris-baris ini sudah benar dan tidak perlu diubah
             def tag = "${env.IMAGE_NAME}:${env.BUILD_NUMBER}"
             sh "docker push ${tag}"
   
-            // 3. Buat tag 'latest' dan push
             sh "docker tag ${tag} ${env.IMAGE_NAME}:latest"
             sh "docker push ${env.IMAGE_NAME}:latest"
           }
         }
       }
     }
-    // ===================================================================
-
   }
   post {
     always {
