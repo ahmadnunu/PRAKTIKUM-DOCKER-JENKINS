@@ -1,6 +1,7 @@
 pipeline {
   agent any
   environment {
+    PATH = "/usr/local/bin:${env.PATH}"
     IMAGE_NAME = 'nunu13/PRAKTIKUM-DOCKER-JENKINS'
     REGISTRY = 'https://index.docker.io/v1/'
     REGISTRY_CREDENTIALS = 'dockerhub-credentials'
