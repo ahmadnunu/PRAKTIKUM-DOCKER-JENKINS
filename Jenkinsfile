@@ -1,7 +1,7 @@
 pipeline {
   agent any
   tools{
-    docker 'nunu13'
+    docker 'docker-default
   }
   environment {
     PATH = "/usr/local/bin:${env.PATH}"
