@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  tools{
+    docker 'nunu13'
+  }
   environment {
     PATH = "/usr/local/bin:${env.PATH}"
     IMAGE_NAME = 'nunu13/praktikum-docker-jenkins'
