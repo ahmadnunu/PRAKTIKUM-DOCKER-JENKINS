@@ -7,6 +7,7 @@ pipeline {
   }
 
   environment {
+    PATH = "/usr/local/bin:${env.PATH}"
     IMAGE_NAME = 'nunu13/praktikum-docker-jenkins'
     REGISTRY_CREDENTIALS = 'dockerhub-credentials'
   }
