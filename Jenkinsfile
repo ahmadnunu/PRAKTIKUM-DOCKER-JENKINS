@@ -1,10 +1,8 @@
 pipeline {
   agent any
   environment {
-  # ubah 'youruser/simple-app' dengan nama kamu dan repo proyek kamu
     IMAGE_NAME = 'nunu13/PRAKTIKUM-DOCKER-JENKINS'
     REGISTRY = 'https://index.docker.io/v1/'
-  # ubah 'dockerhub-credentials' dengan credential yang sudah kamu buat 
     REGISTRY_CREDENTIALS = 'dockerhub-credentials'
   }
   stages {
