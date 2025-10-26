@@ -1,7 +1,7 @@
 pipeline {
  agent any
  environment {
- IMAGE_NAME = 'nunu13/simple-app'
+ IMAGE_NAME = 'nunu13/PRAKTIKUM-DOCKER-JENKINS'
  REGISTRY = 'https://index.docker.io/v1/'
  REGISTRY_CREDENTIALS = 'dockerhub-credentials'
  }
